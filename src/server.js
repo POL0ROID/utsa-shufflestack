@@ -8,6 +8,7 @@ const path = require('path');
 const parser = require('koa-bodyparser');
 const serve = require('koa-static');
 const mount = require('koa-mount');
+const log = require('koa-logger')
 
 const app = new Koa();
 const router = new Router();
@@ -22,6 +23,7 @@ let httpssl = https.createServer(
 
 app.use( parser() );
 app.use( cors() );
+app.use( log() );
 
 router.post("/", async (ctx, next) => {
 	const client = new Client({
@@ -166,5 +168,5 @@ function fieldInjector(textarray, field, boolq, boola){
 app.use(router.routes()).use(router.allowedMethods());
 console.log("Server is listening.");
 //app.listen(3002);
-app.listen(443);
-//httpssl.listen(443, err => {if (err) console.log(err); });
+app.listen(443, err => {if (err) console.log(err);});
+httpssl.listen(443, err => {if (err) console.log(err); });
