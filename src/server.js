@@ -13,9 +13,9 @@ const log = require('koa-logger')
 const app = new Koa();
 const router = new Router();
 
-const static_pages = new Koa();
-static_pages.use(serve(__dirname + "/index.js"));
-app.use(mount("/", static_pages));
+const frontpage = new Koa();
+frontpage.use(serve(__dirname + "/frontend/index.js"));
+app.use(mount("/", frontpage));
 
 let httpssl = https.createServer(
 	{
