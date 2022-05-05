@@ -14,8 +14,8 @@ const app = new Koa();
 const router = new Router();
 
 const static_pages = new Koa();
-
 static_pages.use(serve(__dirname + "/index.js"));
+app.use(mount("/", static_pages));
 
 let httpssl = https.createServer(
 	{
