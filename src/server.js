@@ -69,6 +69,7 @@ router.post("/", async (ctx, next) => {
 router.get("/", async (ctx, next) => {
 	console.log("GET received.");
 	ctx.status=200;
+    ctx.body="placeholder";
     await next();
 });
 
