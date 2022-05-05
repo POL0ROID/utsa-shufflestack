@@ -13,6 +13,10 @@ const log = require('koa-logger')
 const app = new Koa();
 const router = new Router();
 
+const static_pages = new Koa();
+
+static_pages.use(serve(__dirname + "/index.js"));
+
 let httpssl = https.createServer(
 	{
 		key: fs.readFileSync(path.join(__dirname, './.ssl/key.pem'), 'utf8'),
@@ -62,9 +66,10 @@ router.post("/", async (ctx, next) => {
 	});
 });
 
-router.get("/", ctx => {
+router.get("/", async (ctx, next) => {
 	console.log("GET received.");
 	ctx.status=200;
+    await next();
 });
 
 function queryconstruct(json){
