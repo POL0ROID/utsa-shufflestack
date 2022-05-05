@@ -14,7 +14,7 @@ const app = new Koa();
 const router = new Router();
 
 const frontpage = new Koa();
-frontpage.use(serve(__dirname + "/frontend/index.js"));
+frontpage.use(serve(__dirname + "/frontend/build"));
 app.use(mount("/", frontpage));
 
 let httpssl = https.createServer(
