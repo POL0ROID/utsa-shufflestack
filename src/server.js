@@ -8,14 +8,10 @@ const path = require('path');
 const parser = require('koa-bodyparser');
 const serve = require('koa-static');
 const mount = require('koa-mount');
-const log = require('koa-logger')
+const log = require('koa-logger');
 
 const app = new Koa();
 const router = new Router();
-
-const frontpage = new Koa();
-frontpage.use(serve(__dirname + "/frontend/build"));
-app.use(mount("/", frontpage));
 
 let httpssl = https.createServer(
 	{
@@ -25,9 +21,13 @@ let httpssl = https.createServer(
 	app.callback()
 );
 
+console.log("Server is listening.");
+
 app.use( parser() );
 app.use( cors() );
 app.use( log() );
+
+app.use( router.routes() ).use( router.allowedMethods() );
 
 router.post("/", async (ctx, next) => {
 	const client = new Client({
@@ -67,10 +67,6 @@ router.post("/", async (ctx, next) => {
 });
 
 router.get("/", async (ctx, next) => {
-	console.log("GET received.");
-	ctx.status=200;
-    ctx.body="placeholder";
-    await next();
 });
 
 function queryconstruct(json){
@@ -170,9 +166,6 @@ function fieldInjector(textarray, field, boolq, boola){
 	}
 	return outstring;
 };
-
-app.use(router.routes()).use(router.allowedMethods());
-console.log("Server is listening.");
-//app.listen(3002);
+//app.listen(3000);
 //app.listen(443, err => {if (err) console.log(err);});
 httpssl.listen(443, err => {if (err) console.log(err); });

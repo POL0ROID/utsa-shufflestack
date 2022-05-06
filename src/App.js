@@ -4,10 +4,11 @@ import './App.css';
 
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
-import Shuffle from "./Component/Shuffle/index";
+import Search from "./Component/Search/index";
 
 class App extends Component {
   render() {
+	  <p>THIS IS A PLACEHOLDER</p>
     return (
       <Router>
         <Route path="/" exact component={Search} />
